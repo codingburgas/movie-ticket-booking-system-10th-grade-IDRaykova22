@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 void getInformationMenu()
 {
@@ -19,11 +20,10 @@ void getInformationMenu()
 
 void printMenu()
 {
-    std::cout << "  __  __ " << std::endl;
-    std::cout << " |  \\/  | ___ _ __  _   _ " << std::endl;
-    std::cout << " | |\\/| |/ _ \\ |_ \\| | | |" << std::endl;
-    std::cout << " | |  | |  __/ | | | |_| |" << std::endl;
-    std::cout << " |_|  |_|\\___|_| |_|\\__._|" << std::endl;
+    std::ifstream f("menu.txt");
+
+    if (f.is_open())
+        std::cout << f.rdbuf();
 
     std::cout << "\nChoose an option:" << std::endl;
 
