@@ -1,5 +1,6 @@
 #include "pch.h"
 
 int main() {
-    std::cout << "test";
+    Ui* ui = new Ui;
+    delete ui;
 }
