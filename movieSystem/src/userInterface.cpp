@@ -16,7 +16,7 @@ Ui::~Ui() {
 //Displays start screen
 void Ui::startScreen()
 {
-    Utilities::SetColor(32);
+    Utilities::SetColor(33);
 
     Utilities::displayFile("../assets/graphic/cinema.txt");
 
@@ -28,7 +28,7 @@ void Ui::startScreen()
 
         if (choice.empty())
         {
-            //mainMenu();
+            mainMenu();
             break;
         }
         else
@@ -38,4 +38,39 @@ void Ui::startScreen()
     }
 
     Utilities::resetColor();
+}
+
+void Ui::displayMessage(std::string message)
+{
+    //Clear console
+    system("cls");
+
+    std::cout << message << std::endl;
+}
+
+void Ui::mainMenu() {
+    //Clear console
+    system("cls");
+    Utilities::displayFile("../assets/graphic/glasses.txt");
+
+    while (true) {
+
+        int choice;
+        std::cout << "Choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 4:
+            break;
+        case 3:
+            break;
+        default:
+            displayMessage("You've entered an invalid option. Please try again.");
+            break;
+        }
+    }
 }

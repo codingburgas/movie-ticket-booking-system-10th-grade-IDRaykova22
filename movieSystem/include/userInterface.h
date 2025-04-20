@@ -7,9 +7,10 @@ public:
 	Ui();
 	~Ui();
 
-	//void mainMenu();
-private:
+	void mainMenu();
 	void startScreen();
+private:
+	void displayMessage(std::string message);
 
 	//User* user;
 };
