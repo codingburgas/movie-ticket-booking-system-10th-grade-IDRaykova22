@@ -8,7 +8,6 @@ public:
 	~Ui();
 
 	void mainMenu();
-	void timeLineUi();
 private:
 	void startScreen();
 	void displayMenuMsg(std::string msg);
@@ -16,8 +15,7 @@ private:
 	void registerUi();
 	void registerAsAdmin();
 
-	void logInUi();
-	void adminTimeLine(const std::string& fileName, Timeline& timeline);
+	void logInUi()
 
 	User* user;
 };

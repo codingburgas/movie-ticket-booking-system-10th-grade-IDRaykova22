@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "userInterface.h"
 
 Ui::Ui()
 {
@@ -14,9 +15,9 @@ Ui::~Ui() {
 //Displays start screen
 void Ui::startScreen()
 {
-    Utiles::SetColor(32);
+    Utilities::SetColor(32);
 
-    Utiles::displayFile("../assets/graphic/cinema.txt");
+    Utilities::displayFile("../assets/graphic/cinema.txt");
 
     std::string choice;
 
@@ -35,5 +36,5 @@ void Ui::startScreen()
         }
     }
 
-    Utiles::resetColor();
+    Utilities::resetColor();
 }
