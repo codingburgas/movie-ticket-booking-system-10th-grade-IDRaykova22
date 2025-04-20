@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "utilities.h"
 
 namespace Utilities
 {
@@ -25,5 +26,21 @@ namespace Utilities
 		else {
 			std::cerr << "Could not open file for reading!" << std::endl;
 		}
+	}
+
+	//Checks if the given file can open
+	bool isFileEmpty(const std::string& fileName) {
+		std::ifstream file(fileName);
+
+		if (!file.is_open()) {
+			std::cerr << "Could not open the file!" << std::endl;
+			return false;
+		}
+
+		file.seekg(0, std::ios::end);
+		std::streampos fileSize = file.tellg();
+
+		file.close();
+		return fileSize == 0;
 	}
 }

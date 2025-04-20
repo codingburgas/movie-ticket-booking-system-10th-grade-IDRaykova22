@@ -7,15 +7,9 @@ public:
 	Ui();
 	~Ui();
 
-	void mainMenu();
+	//void mainMenu();
 private:
 	void startScreen();
-	void displayMenuMsg(std::string msg);
 
-	void registerUi();
-	void registerAsAdmin();
-
-	void logInUi()
-
-	User* user;
+	//User* user;
 };

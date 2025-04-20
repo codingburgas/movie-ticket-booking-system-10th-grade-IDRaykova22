@@ -1,15 +1,16 @@
 #include "pch.h"
 #include "userInterface.h"
+#include "utilities.h"
 
 Ui::Ui()
 {
-    this->user = new User;
+    //this->user = new User;
     startScreen();
 }
 
 //Destructor that cleans memory 
 Ui::~Ui() {
-    delete user;
+    //delete user;
 }
 
 //Displays start screen
