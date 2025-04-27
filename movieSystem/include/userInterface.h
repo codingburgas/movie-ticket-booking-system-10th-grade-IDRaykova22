@@ -1,5 +1,7 @@
 #pragma once
 #include "pch.h"
+#include <user.h>
+#include "utilities.h"
 
 class Ui
 {
@@ -9,8 +11,13 @@ public:
 
 	void mainMenu();
 	void startScreen();
+	void registerUi();
+	void registerAsAdmin();
 private:
 	void displayMessage(std::string message);
 
-	//User* user;
+	//void registerUi();
+	//void registerAsAdmin();
+
+	User* user;
 };
