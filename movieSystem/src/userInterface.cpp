@@ -45,7 +45,25 @@ void Ui::displayMessage(std::string message)
     //Clear console
     system("cls");
 
+    Utilities::displayFile("../assets/graphic/glasses.txt");
     std::cout << message << std::endl;
+}
+
+void registerUi()
+{
+    const char UIFile[] = "../assets/graphic/register.txt";
+
+    std::string line, password, confirmPassword, email;
+
+    //Clear console
+    system("cls");
+
+    std::ifstream file(UIFile);
+
+    if (!file.is_open() || Utilities::isFileEmpty(UIFile)) {
+        std::cout << "Could not open file for reading!" << std::endl;
+        return;
+    }
 }
 
 void Ui::mainMenu() {
@@ -55,12 +73,13 @@ void Ui::mainMenu() {
 
     while (true) {
 
-        int choice;
+        char choice;
         std::cout << "Choice: ";
         std::cin >> choice;
 
         switch (choice) {
         case 1:
+            registerUi();
             break;
         case 2:
             break;

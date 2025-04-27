@@ -6,6 +6,5 @@ namespace Utilities
 	void resetColor();
 
 	void displayFile(const std::string& fileName);
-
 	bool isFileEmpty(const std::string& fileName);
 };
