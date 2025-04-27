@@ -1,0 +1,16 @@
+[
+    {
+        "email": "test@abv.bg",
+        "id": 1,
+        "isAdmin": false,
+        "password": "74b8bf660ae3b694a1dc9790d574b7da4f6c4fd6c37a4ec02f6f86fc5f842210",
+        "userName": "test"
+    },
+    {
+        "email": "a@abv.bg",
+        "id": 2,
+        "isAdmin": false,
+        "password": "14c358dccb2d19115aa7908583fe69e4f4b67b61cb6aca1258a6fe7b0b6e5484",
+        "userName": "a"
+    }
+]

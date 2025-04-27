@@ -11,13 +11,12 @@ public:
 
 	void mainMenu();
 	void startScreen();
+
 	void registerUi();
 	void registerAsAdmin();
-private:
+	void loginUi();
+
 	void displayMessage(std::string message);
-
-	//void registerUi();
-	//void registerAsAdmin();
-
+private:
 	User* user;
 };

@@ -66,6 +66,7 @@ void Ui::mainMenu() {
             registerUi();
             break;
         case '2':
+            loginUi();
             break;
         case '3':
             break;
@@ -149,7 +150,7 @@ void Ui::registerUi()
 
 void Ui::registerAsAdmin()
 {
-    const char adminKey[] = "Test";
+    const char adminKey[] = "Test"; //Trqbva da go hashiram
 
     std::cout << "             Enter key: ";
 
@@ -162,4 +163,52 @@ void Ui::registerAsAdmin()
     }
 
     user->setAdmin();
+}
+
+void Ui::loginUi()
+{
+    const char UIFile[] = "../assets/graphic/login.txt";
+    const char fileToSave[] = "../assets/users.json";
+
+    //Clear console
+    system("cls");
+
+    std::string line, email, password;
+
+    std::ifstream file(UIFile);
+
+    if (!file.is_open() || Utilities::isFileEmpty(UIFile)) {
+        std::cout << "Could not open file for reading!" << std::endl;
+        return;
+    }
+
+    while (std::getline(file, line))
+    {
+
+        if (line.find("Email") != std::string::npos)
+        {
+            std::cout << line;
+            std::cin >> email;
+
+            while (!user->loadFromFile(fileToSave, email)) {
+                std::cin >> email;
+            }
+        }
+        else if (line.find("Password") != std::string::npos)
+        {
+            std::cout << line;
+
+            std::cin >> password;
+            while (user->getPassword() != Utilities::sha256FromString(password)) {
+                std::cout << "Wrong password\nPassword: ";
+                std::cin >> password;
+            }
+        }
+        else
+        {
+            std::cout << line << std::endl;
+        }
+    }
+
+    file.close();
 }
