@@ -12,5 +12,33 @@
         "isAdmin": false,
         "password": "14c358dccb2d19115aa7908583fe69e4f4b67b61cb6aca1258a6fe7b0b6e5484",
         "userName": "a"
+    },
+    {
+        "email": "abv@abv.bg",
+        "id": 3,
+        "isAdmin": false,
+        "password": "497ec217dd9c77b414fd823c7ae5bec96b905c9d58fba832cff61974ddf07a3f",
+        "userName": "iva"
+    },
+    {
+        "email": "iva@iva.bg",
+        "id": 4,
+        "isAdmin": false,
+        "password": "497ec217dd9c77b414fd823c7ae5bec96b905c9d58fba832cff61974ddf07a3f",
+        "userName": "iva"
+    },
+    {
+        "email": "aaa@abv.bg",
+        "id": 5,
+        "isAdmin": false,
+        "password": "f2b1ba409ac3670c296150ed002f28d302415705cfa4c689f5d2d8101b98d616",
+        "userName": "aaa"
+    },
+    {
+        "email": "ttest@abv.bg",
+        "id": 6,
+        "isAdmin": true,
+        "password": "74b8bf660ae3b694a1dc9790d574b7da4f6c4fd6c37a4ec02f6f86fc5f842210",
+        "userName": "test"
     }
 ]

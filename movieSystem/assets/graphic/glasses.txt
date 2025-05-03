@@ -22,5 +22,6 @@
                                     |    [1] Create account    |
                                     |    [2] Login             |
                                     |    [3] Choose movie      |
+                                    |    [4] Logout            |
                                     |                          |
                                     +==========================+

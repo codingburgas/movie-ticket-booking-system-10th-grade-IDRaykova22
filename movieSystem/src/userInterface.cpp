@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "userInterface.h"
 #include "utilities.h"
-#include "user.h"
+#include "users.h"
 
 Ui::Ui()
 {
@@ -69,6 +69,10 @@ void Ui::mainMenu() {
             loginUi();
             break;
         case '3':
+            break;
+        case '4':
+            displayMessage("You've logged out from: " + user->getUserName() + "\n");
+            user->eraseUser();
             break;
         default:
             displayMessage("You've entered an invalid option. Please try again.");
