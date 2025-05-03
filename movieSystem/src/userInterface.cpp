@@ -154,7 +154,7 @@ void Ui::registerUi()
 
 void Ui::registerAsAdmin()
 {
-    const char adminKey[] = "Test"; //Trqbva da go hashiram
+    const char adminKey[] = "f2b1ba409ac3670c296150ed002f28d302415705cfa4c689f5d2d8101b98d616"; //Admin24@
 
     std::cout << "             Enter key: ";
 
