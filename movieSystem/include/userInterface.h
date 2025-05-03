@@ -15,6 +15,8 @@ public:
 	void registerUi();
 	void registerAsAdmin();
 	void loginUi();
+	void chooseMovie();
+	void adminMenu();
 
 	void displayMessage(std::string message);
 private:

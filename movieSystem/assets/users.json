@@ -40,5 +40,12 @@
         "isAdmin": true,
         "password": "74b8bf660ae3b694a1dc9790d574b7da4f6c4fd6c37a4ec02f6f86fc5f842210",
         "userName": "test"
+    },
+    {
+        "email": "admin@abv.bg",
+        "id": 7,
+        "isAdmin": true,
+        "password": "ddfa08f04ffbedd937ce079026ead9826c0f4572feee5e45ff2a66d058c0c9d5",
+        "userName": "admin"
     }
 ]

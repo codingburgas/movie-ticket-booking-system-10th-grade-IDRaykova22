@@ -69,6 +69,7 @@ void Ui::mainMenu() {
             loginUi();
             break;
         case '3':
+            chooseMovie();
             break;
         case '4':
             displayMessage("You've logged out from: " + user->getUserName() + "\n");
@@ -79,6 +80,22 @@ void Ui::mainMenu() {
             break;
         }
     }
+}
+
+void Ui::chooseMovie()
+{
+    //Clear console
+    system("cls");
+
+    if (user->getIsAdmin())
+    {
+        adminMenu();
+    }
+}
+
+void Ui::adminMenu()
+{
+    Utilities::displayFile("../assets/graphic/adminMenu.txt");
 }
 
 void Ui::registerUi()
