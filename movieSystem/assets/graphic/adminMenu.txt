@@ -8,7 +8,6 @@
                                     |                          |
                                     |    [1] Create cinema     |
                                     |    [2] Add movie         |
-                                    |    [3] Update movie      |
-                                    |    [4] Delete movie      |
+                                    |    [N] Back to menu      |
                                     |                          |
                                     +==========================+

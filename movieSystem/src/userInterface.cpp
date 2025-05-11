@@ -95,7 +95,56 @@ void Ui::chooseMovie()
 
 void Ui::adminMenu()
 {
-    Utilities::displayFile("../assets/graphic/adminMenu.txt");
+    while (true) {
+        system("cls");
+        Utilities::displayFile("../assets/graphic/adminMenu.txt");
+
+        char choice;
+        std::cout << "Choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+            case '1':
+                createCinema();
+                break;
+            case '2':
+                addMovie();
+                break;
+            case '3':
+                return; // Return to main menu
+            default:
+                displayMessage("Invalid option. Please try again.");
+                break;
+        }
+    }
+}
+
+void Ui::createCinema()
+{
+    system("cls");
+    std::cout << "=== Create New Cinema ===\n\n";
+
+    std::string name, location;
+    int numHalls;
+
+    std::cin.ignore();
+    std::cout << "Enter cinema name: ";
+    std::getline(std::cin, name);
+
+    std::cout << "Enter location: ";
+    std::getline(std::cin, location);
+
+    std::cout << "Enter number of halls: ";
+    std::cin >> numHalls;
+
+    nlohmann::json cinema;
+    cinema["name"] = name;
+    cinema["location"] = location;
+    cinema["numHalls"] = numHalls;
+    cinema["type"] = "cinema";
+
+    Utilities::saveToFile("../assets/movies.json", cinema);
+    displayMessage("Cinema created successfully!");
 }
 
 void Ui::registerUi()

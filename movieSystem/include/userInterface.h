@@ -17,6 +17,7 @@ public:
 	void loginUi();
 	void chooseMovie();
 	void adminMenu();
+	void createCinema();
 
 	void displayMessage(std::string message);
 private:
