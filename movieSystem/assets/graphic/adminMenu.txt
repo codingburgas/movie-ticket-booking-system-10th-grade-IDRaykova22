@@ -8,6 +8,7 @@
                                     |                          |
                                     |    [1] Create cinema     |
                                     |    [2] Add movie         |
+				    |    [3] Show list         |
                                     |    [N] Back to menu      |
                                     |                          |
                                     +==========================+

@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 #include <users.h>
 #include "utilities.h"
 
@@ -19,6 +18,7 @@ public:
 	void adminMenu();
 	void createCinema();
 	void addMovie();
+	void showList();
 
 	void displayMessage(std::string message);
 private:

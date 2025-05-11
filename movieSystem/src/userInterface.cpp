@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "userInterface.h"
 #include "utilities.h"
 #include "users.h"
@@ -111,7 +110,8 @@ void Ui::adminMenu()
                 addMovie();
                 break;
             case '3':
-                return; // Return to main menu
+                showList();
+                break;
             default:
                 displayMessage("Invalid option. Please try again.");
                 break;
@@ -339,4 +339,57 @@ void Ui::loginUi()
     }
 
     file.close();
+}
+
+void Ui::showList()
+{
+    system("cls");
+    std::cout << "=== Cinemas and Movies List ===\n\n";
+
+    nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+    
+    std::cout << "CINEMAS:\n";
+    std::cout << "========\n\n";
+    bool hasCinemas = false;
+    
+    for (const auto& item : data) {
+        if (item.contains("type") && item["type"] == "cinema") {
+            hasCinemas = true;
+            std::cout << "Name: " << item["name"].get<std::string>() << "\n";
+            std::cout << "Location: " << item["location"].get<std::string>() << "\n";
+            std::cout << "Number of Halls: " << item["numHalls"].get<int>() << "\n";
+            std::cout << "------------------------\n";
+        }
+    }
+
+    if (!hasCinemas) {
+        std::cout << "No cinemas added yet.\n\n";
+    }
+
+    std::cout << "\nMOVIES:\n";
+    std::cout << "=======\n\n";
+    bool hasMovies = false;
+
+    for (const auto& item : data) {
+        if (item.contains("type") && item["type"] == "movie") {
+            hasMovies = true;
+            std::cout << "Name: " << item["name"].get<std::string>() << "\n";
+            std::cout << "Genre: " << item["genre"].get<std::string>() << "\n";
+            std::cout << "Duration: " << item["duration"].get<int>() << " minutes\n";
+            std::cout << "Languages: " << item["languages"].get<std::string>() << "\n";
+            std::cout << "Description: " << item["description"].get<std::string>() << "\n";
+            std::cout << "Cinema: " << item["cinema"].get<std::string>() << "\n";
+            std::cout << "Hall: " << item["hall"].get<std::string>() << "\n";
+            std::cout << "Show Times: " << item["times"].get<std::string>() << "\n";
+            std::cout << "------------------------\n";
+        }
+    }
+
+    if (!hasMovies) {
+        std::cout << "No movies added yet.\n";
+    }
+
+    char choice;
+    std::cout << "\nPress N to go back\n";
+    std::cin >> choice;
 }
