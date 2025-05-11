@@ -147,6 +147,64 @@ void Ui::createCinema()
     displayMessage("Cinema created successfully!");
 }
 
+void Ui::addMovie()
+{
+    system("cls");
+    std::cout << "=== Add New Movie ===\n\n";
+
+    std::string name, genre, languages, description, cinema, hall, times;
+    int duration;
+
+    std::cin.ignore();
+    std::cout << "Enter movie name: ";
+    std::getline(std::cin, name);
+
+    std::cout << "Enter genre: ";
+    std::getline(std::cin, genre);
+
+    std::cout << "Enter duration (minutes): ";
+    std::cin >> duration;
+    std::cin.ignore();
+
+    std::cout << "Enter languages (comma separated): ";
+    std::getline(std::cin, languages);
+
+    std::cout << "Enter description: ";
+    std::getline(std::cin, description);
+
+    // Load available cinemas
+    nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+    std::cout << "\nAvailable Cinemas:\n";
+    for (const auto& item : data) {
+        if (item.contains("type") && item["type"] == "cinema") {
+            std::cout << "- " << item["name"].get<std::string>() << "\n";
+        }
+    }
+
+    std::cout << "\nEnter cinema name: ";
+    std::getline(std::cin, cinema);
+
+    std::cout << "Enter hall number: ";
+    std::getline(std::cin, hall);
+
+    std::cout << "Enter show times (comma separated): ";
+    std::getline(std::cin, times);
+
+    nlohmann::json movie;
+    movie["name"] = name;
+    movie["genre"] = genre;
+    movie["duration"] = duration;
+    movie["languages"] = languages;
+    movie["description"] = description;
+    movie["cinema"] = cinema;
+    movie["hall"] = hall;
+    movie["times"] = times;
+    movie["type"] = "movie";
+
+    Utilities::saveToFile("../assets/movies.json", movie);
+    displayMessage("Movie added successfully!");
+}
+
 void Ui::registerUi()
 {
     const char UIFile[] = "../assets/graphic/register.txt";
