@@ -107,10 +107,13 @@ void Ui::adminMenu()
                 createCinema();
                 break;
             case '2':
-                addMovie();
+                editCinema();
                 break;
             case '3':
                 deleteCinema();
+                break;
+            case '4':
+                addMovie();
                 break;
             case '7':
                 showList();
@@ -160,7 +163,7 @@ void Ui::deleteCinema()
     // Show available cinemas
     std::cout << "Available Cinemas:\n";
 
-    for (const auto& item : data) {
+    for (auto& item : data) {
         if (item.contains("type") && item["type"] == "cinema") {
             std::cout << "- " << item["name"].get<std::string>() << "\n";
         }
@@ -202,6 +205,69 @@ void Ui::deleteCinema()
     std::cin >> choice;
 }
 
+void Ui::editCinema()
+{
+    system("cls");
+    std::cout << "Edit Cinema\n\n";
+
+    nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+
+    //Show availables movies
+    for (auto& item : data)
+    {
+        if (item.contains("type") && item["type"] == "cinema")
+        {
+            std::cout << "- " << item["name"].get<std::string>() << "\n";
+        }
+    }
+
+    std::cout << "Enter cinema to edit: ";
+    std::string cinemaName;
+    std::cin.ignore();
+    std::getline(std::cin, cinemaName);
+
+    bool found = false;
+    for (auto& item : data)
+    {
+        if (item.contains("type") && item["type"] == "cinema")
+        {
+            if (item["name"].get<std::string>() == cinemaName)
+            {
+                found = true;
+
+                std::cout << "Edit name: ";
+                std::string newName;
+                std::getline(std::cin, newName);
+                
+                std::cout << "Edit location: ";
+                std::string newLocation;
+                std::getline(std::cin, newLocation);
+
+                std::cout << "New number halls: ";
+                int newHalls;
+                std::cin >> newHalls;
+
+                item["name"] = newName;
+                item["location"] = newLocation;
+                item["numHalls"] = newHalls;
+            }
+        }
+    }
+
+    if (found)
+    {
+        std::ofstream file("../assets/movies.json");
+        file << data.dump(1);
+        file.close();
+        std::cout << "Cinema edited";
+    }
+    else std::cout << "Cinema not found";
+
+    char choice;
+    std::cout << "\nPress [N] to go back\n";
+    std::cin >> choice;
+}
+
 void Ui::addMovie()
 {
     system("cls");
@@ -230,7 +296,7 @@ void Ui::addMovie()
     // Load available cinemas
     nlohmann::json data = Utilities::loadFile("../assets/movies.json");
     std::cout << "\nAvailable Cinemas:\n";
-    for (const auto& item : data) {
+    for (auto& item : data) {
         if (item.contains("type") && item["type"] == "cinema") {
             std::cout << "- " << item["name"].get<std::string>() << "\n";
         }
@@ -407,7 +473,7 @@ void Ui::showList()
     std::cout << "---------\n\n";
     bool hasCinemas = false;
     
-    for (const auto& item : data) {
+    for (auto& item : data) {
         if (item.contains("type") && item["type"] == "cinema") {
             hasCinemas = true;
             std::cout << "Name: " << item["name"].get<std::string>() << "\n";
@@ -425,7 +491,7 @@ void Ui::showList()
     std::cout << "---------\n\n";
     bool hasMovies = false;
 
-    for (const auto& item : data) {
+    for (auto& item : data) {
         if (item.contains("type") && item["type"] == "movie") {
             hasMovies = true;
             std::cout << "Name: " << item["name"].get<std::string>() << "\n";

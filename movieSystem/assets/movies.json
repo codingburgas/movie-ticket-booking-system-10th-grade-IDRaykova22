@@ -1,9 +1,16 @@
 [
  {
   "id": 1,
-  "location": "az",
-  "name": "az",
-  "numHalls": 2,
+  "location": "burgas",
+  "name": "burgas",
+  "numHalls": 24,
+  "type": "cinema"
+ },
+ {
+  "id": 2,
+  "location": "ti",
+  "name": "ti",
+  "numHalls": 34,
   "type": "cinema"
  }
 ]

@@ -18,6 +18,7 @@ public:
 	void adminMenu();
 	void createCinema();
 	void deleteCinema();
+	void editCinema();
 	void addMovie();
 	void showList();
 
