@@ -1,21 +1,9 @@
 [
-    {
-        "id": 1,
-        "location": "Burgas",
-        "name": "Burgass",
-        "numHalls": 20,
-        "type": "cinema"
-    },
-    {
-        "cinema": "Burgass",
-        "description": "blqblqblq",
-        "duration": 125,
-        "genre": "Test",
-        "hall": "2",
-        "id": 2,
-        "languages": "Bulgarian, English",
-        "name": "Palqk",
-        "times": "12, 14",
-        "type": "movie"
-    }
+ {
+  "id": 1,
+  "location": "az",
+  "name": "az",
+  "numHalls": 2,
+  "type": "cinema"
+ }
 ]

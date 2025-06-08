@@ -7,8 +7,12 @@
                                     +==========================+
                                     |                          |
                                     |    [1] Create cinema     |
-                                    |    [2] Add movie         |
-				    |    [3] Show list         |
+                                    |    [2] Edit cinema       |
+				    |    [3] Delete cinema     |
+                                    |    [4] Add movie         |
+                                    |    [5] Edit movie        |
+                                    |    [6] Remove movie      |
+                                    |    [7] Show list         |
                                     |    [N] Back to menu      |
                                     |                          |
                                     +==========================+
