@@ -20,6 +20,7 @@ public:
 	void deleteCinema();
 	void editCinema();
 	void addMovie();
+	void deleteMovie();
 	void showList();
 
 	void displayMessage(std::string message);

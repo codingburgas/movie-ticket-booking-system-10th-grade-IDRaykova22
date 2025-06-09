@@ -115,6 +115,9 @@ void Ui::adminMenu()
             case '4':
                 addMovie();
                 break;
+            case '6':
+                    deleteMovie();
+                    break;
             case '7':
                 showList();
                 break;
@@ -324,6 +327,56 @@ void Ui::addMovie()
 
     Utilities::saveToFile("../assets/movies.json", movie);
     displayMessage("Movie added successfully!");
+}
+
+void Ui::deleteMovie()
+{
+    system("cls");
+    std::cout << "Delete movie\n\n";
+
+    nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+
+    // Show available cinemas
+    std::cout << "Available movies:\n";
+
+    for (auto& item : data) {
+        if (item.contains("type") && item["type"] == "movie") {
+            std::cout << "- " << item["name"].get<std::string>() << "\n";
+        }
+    }
+
+    std::cout << "\nEnter movie name to delete: ";
+    std::string movieName;
+    std::cin.ignore();
+    std::getline(std::cin, movieName);
+
+    auto it = data.begin();
+    bool found = false;
+
+    while (it != data.end()) {
+        if (it->contains("type") &&
+            (((*it)["type"] == "movie" && (*it)["name"] == movieName))) {
+            it = data.erase(it);
+            found = true;
+        }
+        else {
+            ++it;
+        }
+    }
+
+    if (found) {
+        std::ofstream file("../assets/movies.json");
+        file << data.dump(1);
+        file.close();
+        std::cout << "Movie deleted successfully!";
+    }
+    else {
+        std::cout << "Movie not found.";
+    }
+
+    char choice;
+    std::cout << "\nPress [N] to go back\n";
+    std::cin >> choice;
 }
 
 void Ui::registerUi()
