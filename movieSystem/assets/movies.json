@@ -7,10 +7,22 @@
   "type": "cinema"
  },
  {
-  "id": 2,
-  "location": "ti",
-  "name": "ti",
-  "numHalls": 34,
+  "id": 3,
+  "location": "tttt",
+  "name": "ttt",
+  "numHalls": 41,
   "type": "cinema"
+ },
+ {
+  "cinema": "burgas",
+  "description": "ani e tupa",
+  "duration": 5,
+  "genre": "ani",
+  "hall": "2",
+  "id": 3,
+  "languages": "bg",
+  "name": "ani",
+  "times": "2",
+  "type": "movie"
  }
 ]

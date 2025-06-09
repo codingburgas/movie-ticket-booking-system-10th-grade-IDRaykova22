@@ -21,6 +21,7 @@ public:
 	void editCinema();
 	void addMovie();
 	void deleteMovie();
+	void editMovie();
 	void showList();
 
 	void displayMessage(std::string message);

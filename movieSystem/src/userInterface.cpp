@@ -115,6 +115,9 @@ void Ui::adminMenu()
             case '4':
                 addMovie();
                 break;
+            case '5':
+                editMovie();
+                break;
             case '6':
                     deleteMovie();
                     break;
@@ -327,6 +330,106 @@ void Ui::addMovie()
 
     Utilities::saveToFile("../assets/movies.json", movie);
     displayMessage("Movie added successfully!");
+}
+
+void Ui::editMovie()
+{
+    system("cls");
+    std::cout << "Edit Movie\n\n";
+
+    nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+
+    //Show availables movies
+    for (auto& item : data)
+    {
+        if (item.contains("type") && item["type"] == "movie")
+        {
+            std::cout << "- " << item["name"].get<std::string>() << "\n";
+        }
+    }
+
+    std::cout << "Enter movie to edit: ";
+    std::string movieName;
+    std::cin.ignore();
+    std::getline(std::cin, movieName);
+
+    bool found = false;
+    for (auto& item : data)
+    {
+        if (item.contains("type") && item["type"] == "movie")
+        {
+            if (item["name"].get<std::string>() == movieName)
+            {
+                found = true;
+
+                std::cout << "Edit name: ";
+                std::string newName;
+                std::getline(std::cin, newName);
+
+                std::cout << "Edit genre: ";
+                std::string newGenre;
+                std::getline(std::cin, newGenre);
+
+                std::cout << "Edit duration: ";
+                int newDuration;
+                std::cin >> newDuration;
+
+                std::cin.ignore();
+                std::cout << "Edit languages: ";
+                std::string newLanguages;
+                std::getline(std::cin, newLanguages);
+
+
+                std::cout << "Edit description: ";
+                std::string newDescription;
+                std::getline(std::cin, newDescription);
+
+                std::cout << "\nAvailable cinemas:\n";
+
+                for (auto& item : data) {
+                    if (item.contains("type") && item["type"] == "cinema") {
+                        std::cout << "- " << item["name"].get<std::string>() << std::endl;
+                        std::cout << "-- Number of halls: " << item["numHalls"].get<int>() << std::endl;
+                    }
+                }
+
+                std::cout << "Edit cinema: ";
+                std::string newCinema;
+                std::getline(std::cin, newCinema);
+
+                std::cout << "Edit hall (which hall to play the movie in): ";
+                std::string newHall;
+                std::getline(std::cin, newHall);
+
+                std::cout << "Edit times (to play) : ";
+                std::string newTimes;
+                std::getline(std::cin, newTimes);
+
+                item["name"] = newName;
+                item["genre"] = newGenre;
+                item["duration"] = newDuration;
+                item["languages"] = newLanguages;
+                item["description"] = newDescription;
+                item["cinema"] = newCinema;
+                item["hall"] = newHall;
+                item["times"] = newTimes;
+                
+            }
+        }
+    }
+
+    if (found)
+    {
+        std::ofstream file("../assets/movies.json");
+        file << data.dump(1);
+        file.close();
+        std::cout << "Movie edited";
+    }
+    else std::cout << "Movie not found";
+
+    char choice;
+    std::cout << "\nPress [N] to go back\n";
+    std::cin >> choice;
 }
 
 void Ui::deleteMovie()
