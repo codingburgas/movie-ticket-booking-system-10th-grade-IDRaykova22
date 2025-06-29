@@ -104,7 +104,7 @@ void Ui::chooseMovie()
             }
         }
         
-        std::cout << "Filter the search by: [1] Title (From A to Z) | [2] Language | [3] Genre | [4] Release year\n";
+        std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year\n";
         int choice;
         std::cin >> choice;
         std::cin.ignore();
@@ -119,39 +119,68 @@ void Ui::chooseMovie()
             std::cin.ignore();
             switch (choice)
             {
-            case 1:
-            {
-                std::cout << "Enter movie name: ";
-                std::string movieName;
-
-                while (true)
+                case 1:
                 {
-                    std::getline(std::cin, movieName);
+                    std::cout << "Enter movie name: ";
+                    std::string movieName;
 
-                    if (movieName == "N" || movieName == "n") mainMenu();
-
-                    bool found = false;
-
-                    for (auto& item : data)
+                    while (true)
                     {
-                        if (item.contains("type") && item["type"] == "movie")
+                        std::getline(std::cin, movieName);
+
+                        if (movieName == "N" || movieName == "n") mainMenu();
+
+                        bool found = false;
+
+                        for (auto& item : data)
                         {
+                            if (item.contains("type") && item["type"] == "movie")
+                            {
                             if (item["name"].get<std::string>() == movieName)
                             {
                                 std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
                                 found = true;
                             }
+                            }
+                        }
+
+                        if (!found)
+                        {
+                        std::cout << "We couldn't find a movie with that name.\n";
+                        }
+
+                        std::cout << "Press N to go back or enter another movie name\n";
+                    }
+                }
+                case 2:
+                {
+                    std::vector<nlohmann::json> movies;
+
+                    for (auto& item : data)
+                    {
+                        if (item.contains("type") && item["type"] == "movie")
+                        {
+                            movies.push_back(item);
                         }
                     }
 
-                    if (!found)
+                    std::sort(movies.begin(), movies.end());
+
+                    std::cout << "\nMovies from A to Z:\n\n";
+
+                    for (const auto& item : movies)
                     {
-                        std::cout << "We couldn't find a movie with that name.\n";
+                        std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
                     }
 
-                    std::cout << "Press N to go back or enter another movie name\n";
+                    std::cout << "\nPress N to go back.\n";
+                    std::cin.get();
+                    mainMenu();
+                    break;
                 }
-            }
+                default:
+                    std::cout << "Invalid choice.\n";
+                    break;
             }
             }
         }
