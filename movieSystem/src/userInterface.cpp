@@ -98,7 +98,7 @@ void Ui::chooseMovie()
 
         for (auto& item : data) {
             if (item.contains("type") && item["type"] == "movie") {
-                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Duration: "<< item["duration"] << " minutes| " << "|Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << '|' << " |Hall: " << item["hall"].get<std::string>() << '|' << std::endl;
+                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Duration: " << item["duration"] << " minutes| " << "|Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << '|' << " |Hall: " << item["hall"].get<std::string>() << '|' << std::endl;
             }
         }
     }
