@@ -90,7 +90,7 @@ void Ui::chooseMovie()
     {
         adminMenu();
     }
-    else
+    else if (user->getIsAdmin() == false)
     {
         std::cout << "Listing all available movies:\n\n";
 
@@ -98,9 +98,18 @@ void Ui::chooseMovie()
 
         for (auto& item : data) {
             if (item.contains("type") && item["type"] == "movie") {
-                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Duration: " << item["duration"] << " minutes| " << "|Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << '|' << " |Hall: " << item["hall"].get<std::string>() << '|' << std::endl;
+                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release date: " << item["releaseDate"].get<std::string>() << "| |Duration: " << item["duration"] << " minutes| " << " | Languages : " << item["languages"].get<std::string>() << "| |Cinema : " << item["cinema"].get<std::string>() << '|' << " | Hall: " << item["hall"].get<std::string>() << "|\n" << std::endl;
             }
         }
+        
+        std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release date";
+        int choice;
+        std::cin >> choice;
+        std::cin.ignore();
+    }
+    else
+    {
+        displayMessage("You have to log in to look at the available movies");
     }
 }
 
@@ -291,7 +300,7 @@ void Ui::addMovie()
     system("cls");
     std::cout << "Add New Movie\n\n";
 
-    std::string name, genre, languages, description, cinema, hall, times;
+    std::string name, genre, languages, description, cinema, hall, times, releaseDate;
     int duration;
 
     std::cin.ignore();
@@ -300,6 +309,9 @@ void Ui::addMovie()
 
     std::cout << "Enter genre: ";
     std::getline(std::cin, genre);
+
+    std::cout << "Enter release date: ";
+    std::getline(std::cin, releaseDate);
 
     std::cout << "Enter duration (minutes): ";
     std::cin >> duration;
@@ -338,6 +350,7 @@ void Ui::addMovie()
     movie["cinema"] = cinema;
     movie["hall"] = hall;
     movie["times"] = times;
+    movie["releaseDate"] = releaseDate;
     movie["type"] = "movie";
 
     Utilities::saveToFile("../assets/movies.json", movie);
@@ -382,6 +395,10 @@ void Ui::editMovie()
                 std::string newGenre;
                 std::getline(std::cin, newGenre);
 
+                std::cout << "Edit release date: ";
+                std::string newReleaseDate;
+                std::getline(std::cin, newReleaseDate);
+
                 std::cout << "Edit duration: ";
                 int newDuration;
                 std::cin >> newDuration;
@@ -425,6 +442,7 @@ void Ui::editMovie()
                 item["cinema"] = newCinema;
                 item["hall"] = newHall;
                 item["times"] = newTimes;
+                item["releaseDate"] = newReleaseDate;
                 
             }
         }
