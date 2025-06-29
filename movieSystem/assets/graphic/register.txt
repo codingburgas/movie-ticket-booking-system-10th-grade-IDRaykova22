@@ -24,3 +24,5 @@
              Registering as Admin? (y/n): 
  
           =====================
+
+	  Press N to go back

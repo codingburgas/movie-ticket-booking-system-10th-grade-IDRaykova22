@@ -90,6 +90,18 @@ void Ui::chooseMovie()
     {
         adminMenu();
     }
+    else
+    {
+        std::cout << "Listing all available movies:\n\n";
+
+        nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+
+        for (auto& item : data) {
+            if (item.contains("type") && item["type"] == "movie") {
+                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Duration: "<< item["duration"] << " minutes| " << "|Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << '|' << " |Hall: " << item["hall"].get<std::string>() << '|' << std::endl;
+            }
+        }
+    }
 }
 
 void Ui::adminMenu()
