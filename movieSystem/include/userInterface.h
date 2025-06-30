@@ -12,6 +12,7 @@ public:
 	void startScreen();
 
 	void registerUi();
+	void bookMovie();
 	void registerAsAdmin();
 	void loginUi();
 	void chooseMovie();

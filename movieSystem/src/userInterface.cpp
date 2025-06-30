@@ -96,6 +96,243 @@ std::vector<std::string> splitLanguages(const std::string& languages) {
     return result;
 }
 
+void Ui::bookMovie()
+{
+    system("cls");
+
+    std::string movieName;
+    std::cout << "Enter the movie name you want to book: ";
+    std::getline(std::cin, movieName);
+
+    nlohmann::json data = Utilities::loadFile("../assets/movies.json");
+    nlohmann::json selectedMovie;
+    bool movieFound = false;
+
+    for (auto& item : data) {
+        if (item.contains("type") && item["type"] == "movie" &&
+            item["name"].get<std::string>() == movieName) {
+            selectedMovie = item;
+            movieFound = true;
+            break;
+        }
+    }
+
+    if (!movieFound) {
+        std::cout << "Movie not found. Press any key to continue...";
+        std::cin.get();
+        return;
+    }
+
+    std::cout << "Booking for: " << selectedMovie["name"].get<std::string>() << std::endl;
+    std::cout << "Description: " << selectedMovie["description"].get<std::string>() << std::endl;
+    std::cout << "Cinema: " << selectedMovie["cinema"].get<std::string>() << std::endl;
+    std::cout << "Hall: " << selectedMovie["hall"].get<std::string>() << std::endl;
+    std::cout << "Show time: " << selectedMovie["times"].get<std::string>() << std::endl;
+    std::cout << "Duration: " << selectedMovie["duration"].get<int>() << " minutes" << std::endl;
+    std::cout << std::endl;
+
+    int children = 0, elderly = 0, regularTickets = 0;
+
+    std::cout << "Are there any children under 10? (y/n): ";
+    char hasChildren;
+    std::cin >> hasChildren;
+
+    if (hasChildren == 'y' || hasChildren == 'Y') {
+        std::cout << "How many children under 10? ";
+        std::cin >> children;
+    }
+
+    std::cout << "Are there any elderly people over 60? (y/n): ";
+    char hasElderly;
+    std::cin >> hasElderly;
+
+    if (hasElderly == 'y' || hasElderly == 'Y') {
+        std::cout << "How many elderly people over 60? ";
+        std::cin >> elderly;
+    }
+
+    std::cout << "How many regular tickets (paying customers)? ";
+    std::cin >> regularTickets;
+
+    int totalSeats = children + elderly + regularTickets;
+    std::cout << "Total seats needed: " << totalSeats << std::endl;
+
+    system("cls");
+    Utilities::displayFile("../assets/graphic/seatsChart.txt");
+
+    std::string bookingFileName = "../assets/bookings_" + selectedMovie["name"].get<std::string>() +
+        "_" + selectedMovie["cinema"].get<std::string>() +
+        "_" + selectedMovie["hall"].get<std::string>() + ".json";
+
+    nlohmann::json bookings;
+    std::ifstream bookingFile(bookingFileName);
+    if (bookingFile.is_open()) {
+        bookingFile >> bookings;
+        bookingFile.close();
+    }
+    else {
+        bookings = nlohmann::json::array();
+    }
+
+    std::set<int> takenSeats;
+    for (auto& booking : bookings) {
+        if (booking.contains("seats")) {
+            for (int seat : booking["seats"]) {
+                takenSeats.insert(seat);
+            }
+        }
+    }
+
+    if (!takenSeats.empty()) {
+        std::cout << "\nTaken seats: ";
+        for (int seat : takenSeats) {
+            std::cout << "[" << seat << "] ";
+        }
+        std::cout << std::endl;
+    }
+
+    //User select seats
+    std::vector<int> selectedSeats;
+    std::cout << "\nSelect " << totalSeats << " seats (enter seat numbers one by one) START WITH CHILDREN OR ELDERLY PEOPLE:" << std::endl;
+
+    for (int i = 0; i < totalSeats; i++) {
+        int seatNumber;
+        bool validSeat = false;
+
+        while (!validSeat) {
+            std::cout << "Seat " << (i + 1) << ": ";
+            std::cin >> seatNumber;
+
+            if (seatNumber < 1 || seatNumber > 54) {
+                std::cout << "Invalid seat number. Please choose between 1-54." << std::endl;
+                continue;
+            }
+
+            if (takenSeats.find(seatNumber) != takenSeats.end()) {
+                std::cout << "Seat " << seatNumber << " is already taken. Please choose another." << std::endl;
+                continue;
+            }
+
+            if (std::find(selectedSeats.begin(), selectedSeats.end(), seatNumber) != selectedSeats.end()) {
+                std::cout << "You already selected seat " << seatNumber << ". Please choose another." << std::endl;
+                continue;
+            }
+
+            selectedSeats.push_back(seatNumber);
+            validSeat = true;
+        }
+    }
+
+    double totalPrice = 0.0;
+    std::cout << "\nSelected seats and pricing:" << std::endl;
+
+    for (int seat : selectedSeats) {
+        double seatPrice = 0.0;
+        std::string section;
+
+        if (seat >= 1 && seat <= 9) {
+            section = "A (Platinum)";
+            seatPrice = 30.0;
+        }
+        else if (seat >= 10 && seat <= 27) {
+            section = "B/C/D (Gold)";
+            seatPrice = 20.0;
+        }
+        else if (seat >= 28 && seat <= 54) {
+            section = "E/F/G (Silver)";
+            seatPrice = 10.0;
+        }
+
+        std::cout << "Seat " << seat << " - Section " << section << " - $" << seatPrice << std::endl;
+        totalPrice += seatPrice;
+    }
+
+    int freeTickets = children + elderly;
+    if (freeTickets > 0 && regularTickets > 0) {
+        double pricePerTicket = totalPrice / totalSeats;
+        totalPrice = pricePerTicket * regularTickets;
+
+        std::cout << "\nDiscount applied:" << std::endl;
+        std::cout << "Free tickets (children + elderly): " << freeTickets << std::endl;
+        std::cout << "Paying tickets: " << regularTickets << std::endl;
+    }
+
+    std::cout << "\nTotal price: $" << std::fixed << std::setprecision(2) << totalPrice << std::endl;
+
+    std::cin.ignore();
+    std::string customerName, cardNumber, expiryDate, cvv, billingAddress, phoneNumber;
+
+    std::cout << "\n--- Customer Information ---" << std::endl;
+    std::cout << "Full Name: ";
+    std::getline(std::cin, customerName);
+
+    std::cout << "Phone Number: ";
+    std::getline(std::cin, phoneNumber);
+
+    std::cout << "Billing Address: ";
+    std::getline(std::cin, billingAddress);
+
+    std::cout << "\n--- Payment Information ---" << std::endl;
+    std::cout << "Card Number (16 digits): ";
+    std::getline(std::cin, cardNumber);
+
+    std::cout << "Expiry Date (MM/YY): ";
+    std::getline(std::cin, expiryDate);
+
+    std::cout << "CVV (3 digits): ";
+    std::getline(std::cin, cvv);
+
+    if (customerName.empty() || cardNumber.length() != 16 || cvv.length() != 3) {
+        std::cout << "\nInvalid information provided. Booking cancelled." << std::endl;
+        std::cout << "Press any key to continue and then N to go back";
+        std::cin.get();
+        return;
+    }
+
+    nlohmann::json newBooking;
+    newBooking["customerName"] = customerName;
+    newBooking["phoneNumber"] = phoneNumber;
+    newBooking["billingAddress"] = billingAddress;
+    newBooking["cardNumber"] = cardNumber.substr(0, 4) + "****" + cardNumber.substr(12);
+    newBooking["movieName"] = selectedMovie["name"];
+    newBooking["cinema"] = selectedMovie["cinema"];
+    newBooking["hall"] = selectedMovie["hall"];
+    newBooking["showTime"] = selectedMovie["times"];
+    newBooking["seats"] = selectedSeats;
+    newBooking["totalPrice"] = totalPrice;
+    newBooking["regularTickets"] = regularTickets;
+    newBooking["children"] = children;
+    newBooking["elderly"] = elderly;
+    newBooking["bookingDate"] = "2025-07-02";
+
+    bookings.push_back(newBooking);
+
+    // Save bookings to file
+    std::ofstream outFile(bookingFileName);
+    outFile << bookings.dump(4);
+    outFile.close();
+
+    system("cls");
+    std::cout << "  The purchase was made successfully!\n" << std::endl;
+    std::cout << "Booking Summary:" << std::endl;
+    std::cout << "Movie: " << selectedMovie["name"].get<std::string>() << std::endl;
+    std::cout << "Cinema: " << selectedMovie["cinema"].get<std::string>() << std::endl;
+    std::cout << "Hall: " << selectedMovie["hall"].get<std::string>() << std::endl;
+    std::cout << "Show Time: " << selectedMovie["times"].get<std::string>() << std::endl;
+    std::cout << "Customer: " << customerName << std::endl;
+    std::cout << "Seats: ";
+    for (int seat : selectedSeats) {
+        std::cout << "[" << seat << "] ";
+    }
+    std::cout << std::endl;
+    std::cout << "Total Paid: $" << std::fixed << std::setprecision(2) << totalPrice << std::endl;
+    std::cout << std::endl;
+    std::cout << "Thank you for your purchase!" << std::endl;
+    std::cout << "Press any key to continue and then N to go back";
+    std::cin.get();
+}
+
+
 void Ui::chooseMovie()
 {
     //Clear console
@@ -129,6 +366,7 @@ void Ui::chooseMovie()
             break;
         case '2':
             std::cout << "Available Cinemas:\n";
+
             for (auto& item : data) {
                 if (item.contains("type") && item["type"] == "cinema") {
                     std::cout << "- " << item["name"].get<std::string>() << "\n";
@@ -136,12 +374,6 @@ void Ui::chooseMovie()
             }
             std::cout << "\nEnter cinema: \n";
             std::getline(std::cin, cinemaName);
-            std::cout << "Listing all available movies in " << cinemaName << ":\n\n";
-            for (auto& item : data) {
-                if (item.contains("type") && item["type"] == "movie" && item["cinema"].get<std::string>() == cinemaName) {
-                    std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| " << " | Languages : " << item["languages"].get<std::string>() << "| |Cinema : " << item["cinema"].get<std::string>() << '|' << " | Hall: " << item["hall"].get<std::string>() << "|\n" << std::endl;
-                }
-            }
             madeChoice = true;
             break;
         default:
@@ -151,7 +383,7 @@ void Ui::chooseMovie()
         
         if (madeChoice)
         {
-            std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year | [5] Showtime\n";
+            std::cout << "[B] Book a movie\nFilter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year | [5] Showtime\n";
             char choice;
             std::cin >> choice;
             std::cin.ignore();
@@ -181,7 +413,7 @@ void Ui::chooseMovie()
 
                         for (auto& item : data)
                         {
-                            if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
+                            if (item.contains("type") && item["type"] == "movie")
                             {
                                 if (item["name"].get<std::string>() == movieName)
                                 {
@@ -205,7 +437,7 @@ void Ui::chooseMovie()
 
                     for (auto& item : data)
                     {
-                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
+                        if (item.contains("type") && item["type"] == "movie")
                         {
                             movies.push_back(item);
                         }
@@ -245,7 +477,7 @@ void Ui::chooseMovie()
 
                     for (auto& item : data)
                     {
-                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
+                        if (item.contains("type") && item["type"] == "movie")
                         {
                             auto langs = splitLanguages(item["languages"].get<std::string>());
 
@@ -280,7 +512,7 @@ void Ui::chooseMovie()
 
                     for (auto& item : data)
                     {
-                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
+                        if (item.contains("type") && item["type"] == "movie")
                         {
                             if (item["genre"].get<std::string>() == genre)
                             {
@@ -313,7 +545,7 @@ void Ui::chooseMovie()
 
                     for (auto& item : data)
                     {
-                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
+                        if (item.contains("type") && item["type"] == "movie")
                         {
                             if (item["releaseDate"] == releaseYearInt)
                             {
@@ -347,7 +579,7 @@ void Ui::chooseMovie()
 
                     for (auto& item : data)
                     {
-                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
+                        if (item.contains("type") && item["type"] == "movie")
                         {
                             auto langs = splitLanguages(item["times"].get<std::string>());
 
@@ -367,6 +599,9 @@ void Ui::chooseMovie()
                     std::cout << "Press N to go back or enter another showtime\n";
                 }
             }
+            case 'B': case 'b' :
+                Ui::bookMovie();
+                break;
             }
         }
         }

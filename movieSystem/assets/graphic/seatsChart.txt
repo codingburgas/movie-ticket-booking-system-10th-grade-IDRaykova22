@@ -1,0 +1,16 @@
+Ranking seats section:
+Section A - Platinum 30 per seat.
+Section B, C and D - Gold 20 per seat.
+Section E, F and G - Silver 10 per seat.
+
+Children under 10 and elderly people after 60 get a BIG discount.
+
+	A [1] [2] [3] [4] [5] [6] [7] [8] [9]
+	B [10] [11] [12]       [13] [14] [15]
+	C [16] [17] [18]       [19] [20] [21]
+	D [22] [23] [24]       [25] [26] [27]
+    E [28] [29] [30] [31] [32] [33] [34] [35] [36]
+    F [37] [38] [39] [40] [41] [42] [43] [44] [45]
+    G [46] [47] [48] [49] [50] [51] [52] [53] [54]
+
+Please choose a seat (type only the number):
