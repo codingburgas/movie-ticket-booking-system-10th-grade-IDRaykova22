@@ -193,7 +193,7 @@ void Ui::bookMovie()
 
     //User select seats
     std::vector<int> selectedSeats;
-    std::cout << "\nSelect " << totalSeats << " seats (enter seat numbers one by one) START WITH CHILDREN OR ELDERLY PEOPLE:" << std::endl;
+    std::cout << "\nSelect " << totalSeats << " seats (enter seat numbers one by one):" << std::endl;
 
     for (int i = 0; i < totalSeats; i++) {
         int seatNumber;
@@ -259,41 +259,67 @@ void Ui::bookMovie()
 
     std::cout << "\nTotal price: $" << std::fixed << std::setprecision(2) << totalPrice << std::endl;
 
+    std::cout << "Do you want to pay online or walk-in?\n[1] Online\n[2] Walk-in\n";
+    char paymentMethod;
+    std::cin >> paymentMethod;
     std::cin.ignore();
+
     std::string customerName, cardNumber, expiryDate, cvv, billingAddress, phoneNumber;
 
-    std::cout << "\n--- Customer Information ---" << std::endl;
-    std::cout << "Full Name: ";
-    std::getline(std::cin, customerName);
+    switch (paymentMethod)
+    {
+    case '1':
+        std::cout << "\n--- Customer Information ---" << std::endl;
+        std::cout << "Full Name: ";
+        std::getline(std::cin, customerName);
 
-    std::cout << "Phone Number: ";
-    std::getline(std::cin, phoneNumber);
+        std::cout << "Phone Number: ";
+        std::getline(std::cin, phoneNumber);
 
-    std::cout << "Billing Address: ";
-    std::getline(std::cin, billingAddress);
+        std::cout << "Billing Address: ";
+        std::getline(std::cin, billingAddress);
 
-    std::cout << "\n--- Payment Information ---" << std::endl;
-    std::cout << "Card Number (16 digits): ";
-    std::getline(std::cin, cardNumber);
+        std::cout << "\n--- Payment Information ---" << std::endl;
+        std::cout << "Card Number (16 digits): ";
+        std::getline(std::cin, cardNumber);
 
-    std::cout << "Expiry Date (MM/YY): ";
-    std::getline(std::cin, expiryDate);
+        std::cout << "Expiry Date (MM/YY): ";
+        std::getline(std::cin, expiryDate);
 
-    std::cout << "CVV (3 digits): ";
-    std::getline(std::cin, cvv);
+        std::cout << "CVV (3 digits): ";
+        std::getline(std::cin, cvv);
 
-    if (customerName.empty() || cardNumber.length() != 16 || cvv.length() != 3) {
-        std::cout << "\nInvalid information provided. Booking cancelled." << std::endl;
-        std::cout << "Press any key to continue and then N to go back";
-        std::cin.get();
-        return;
+        if (customerName.empty() || cardNumber.length() != 16 || cvv.length() != 3) {
+            std::cout << "\nInvalid information provided. Booking cancelled." << std::endl;
+            std::cout << "Press N to go back";
+            return;
+        }
+        break;
+    case '2':
+        std::cout << "\n--- Customer Information ---" << std::endl;
+        std::cout << "Full Name: ";
+        std::getline(std::cin, customerName);
+
+        std::cout << "Phone Number: ";
+        std::getline(std::cin, phoneNumber);
+
+        cardNumber = "WALK-IN";
+        billingAddress = "WALK-IN";
+
+        std::cout << "See you at the reception.\n";
+        break;
     }
 
     nlohmann::json newBooking;
     newBooking["customerName"] = customerName;
     newBooking["phoneNumber"] = phoneNumber;
     newBooking["billingAddress"] = billingAddress;
-    newBooking["cardNumber"] = cardNumber.substr(0, 4) + "****" + cardNumber.substr(12);
+    if (paymentMethod == '1') {
+        newBooking["cardNumber"] = cardNumber.substr(0, 4) + "****" + cardNumber.substr(12);
+    }
+    else {
+        newBooking["cardNumber"] = cardNumber;
+    }
     newBooking["movieName"] = selectedMovie["name"];
     newBooking["cinema"] = selectedMovie["cinema"];
     newBooking["hall"] = selectedMovie["hall"];
@@ -307,7 +333,6 @@ void Ui::bookMovie()
 
     bookings.push_back(newBooking);
 
-    // Save bookings to file
     std::ofstream outFile(bookingFileName);
     outFile << bookings.dump(4);
     outFile.close();
@@ -326,9 +351,12 @@ void Ui::bookMovie()
     }
     std::cout << std::endl;
     std::cout << "Total Paid: $" << std::fixed << std::setprecision(2) << totalPrice << std::endl;
+    if (paymentMethod == '2') {
+        std::cout << "\nPlease pay at the cinema reception before the show." << std::endl;
+    }
     std::cout << std::endl;
     std::cout << "Thank you for your purchase!" << std::endl;
-    std::cout << "Press any key to continue and then N to go back";
+    std::cout << "Press any key to continue and then N to go back\n";
     std::cin.get();
 }
 

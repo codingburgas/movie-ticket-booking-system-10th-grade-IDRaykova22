@@ -1,0 +1,79 @@
+[
+    {
+        "billingAddress": "2nfds",
+        "bookingDate": "2025-07-02",
+        "cardNumber": "1234****1111",
+        "children": 0,
+        "cinema": "burgas",
+        "customerName": "ani",
+        "elderly": 0,
+        "hall": "2",
+        "movieName": "ani",
+        "phoneNumber": "2312",
+        "regularTickets": 2,
+        "seats": [
+            1,
+            2
+        ],
+        "showTime": "12:00",
+        "totalPrice": 60.0
+    },
+    {
+        "billingAddress": "N/A",
+        "bookingDate": "2025-07-02",
+        "cardNumber": "WALK-IN",
+        "children": 0,
+        "cinema": "burgas",
+        "customerName": "iva",
+        "elderly": 0,
+        "hall": "2",
+        "movieName": "ani",
+        "paymentMethod": "Walk-in",
+        "phoneNumber": "123",
+        "regularTickets": 2,
+        "seats": [
+            3,
+            4
+        ],
+        "showTime": "12:00",
+        "totalPrice": 60.0
+    },
+    {
+        "billingAddress": "gfd",
+        "bookingDate": "2025-07-02",
+        "cardNumber": "1234****4567",
+        "children": 0,
+        "cinema": "burgas",
+        "customerName": "iva",
+        "elderly": 0,
+        "hall": "2",
+        "movieName": "ani",
+        "phoneNumber": "232",
+        "regularTickets": 2,
+        "seats": [
+            21,
+            25
+        ],
+        "showTime": "12:00",
+        "totalPrice": 40.0
+    },
+    {
+        "billingAddress": "WALK-IN",
+        "bookingDate": "2025-07-02",
+        "cardNumber": "WALK-IN",
+        "children": 0,
+        "cinema": "burgas",
+        "customerName": "ani",
+        "elderly": 0,
+        "hall": "2",
+        "movieName": "ani",
+        "phoneNumber": "123",
+        "regularTickets": 2,
+        "seats": [
+            5,
+            6
+        ],
+        "showTime": "12:00",
+        "totalPrice": 60.0
+    }
+]
