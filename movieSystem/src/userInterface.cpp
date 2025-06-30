@@ -83,6 +83,19 @@ void Ui::mainMenu() {
     }
 }
 
+std::vector<std::string> splitLanguages(const std::string& languages) {
+    std::vector<std::string> result;
+    std::stringstream ss(languages);
+    std::string lang;
+
+    while (std::getline(ss, lang, ',')) {
+        lang.erase(0, lang.find_first_not_of(" \t"));
+        result.push_back(lang);
+    }
+
+    return result;
+}
+
 void Ui::chooseMovie()
 {
     //Clear console
@@ -105,13 +118,13 @@ void Ui::chooseMovie()
         }
         
         std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year\n";
-        int choice;
+        char choice;
         std::cin >> choice;
         std::cin.ignore();
 
         switch (choice)
         {
-        case 1:
+        case '1':
         {
             std::cout << "[1] Specific name [2] From A to Z\n";
             int choice;
@@ -183,7 +196,42 @@ void Ui::chooseMovie()
                     break;
             }
             }
-        case 3:
+        case '2':
+        {
+            std::cout << "Enter language(s): ";
+            std::string language;
+
+            while (true)
+            {
+                std::getline(std::cin, language);
+
+                if (language == "N" || language == "n") mainMenu();
+
+                bool found = false;
+
+                for (auto& item : data)
+                {
+                    if (item.contains("type") && item["type"] == "movie")
+                    {
+                        auto langs = splitLanguages(item["languages"].get<std::string>());
+
+                        if (std::find(langs.begin(), langs.end(), language) != langs.end())
+                        {
+                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << "We couldn't find a movie with that language.\n";
+                }
+
+                std::cout << "Press N to go back or enter another movie language\n";
+            }
+        }
+        case '3':
         {
             std::cout << "Enter genre: ";
             std::string genre;
@@ -256,6 +304,9 @@ void Ui::adminMenu()
                     break;
             case '7':
                 showList();
+                break;
+            case 'n' : case 'N':
+                mainMenu();
                 break;
             default:
                 displayMessage("Invalid option. Please try again.");

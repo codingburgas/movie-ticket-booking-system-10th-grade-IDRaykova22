@@ -1,68 +1,81 @@
 [
- {
-  "id": 1,
-  "location": "burgas",
-  "name": "burgas",
-  "numHalls": 24,
-  "type": "cinema"
- },
- {
-  "id": 3,
-  "location": "tttt",
-  "name": "ttt",
-  "numHalls": 41,
-  "type": "cinema"
- },
- {
-  "cinema": "burgas",
-  "description": "ani e tupa",
-  "duration": 5,
-  "genre": "ani",
-  "hall": "2",
-  "id": 3,
-  "languages": "bg",
-  "name": "ani",
-  "releaseDate": "2025-06-29",
-  "times": "2",
-  "type": "movie"
- },
- {
-    "cinema": "burgas",
-    "description": "ani e tupa",
-    "duration": 5,
-    "genre": "gfdgdf",
-    "hall": "1",
-    "id": 3,
-    "languages": "bg",
-    "name": "ares",
-    "releaseDate": "2021-06-29",
-    "times": "2",
-    "type": "movie"
-   },
-   {
-    "cinema": "burgas",
-    "description": "ani e tupa",
-    "duration": 5,
-    "genre": "gfdgdf",
-    "hall": "1",
-    "id": 3,
-    "languages": "bg",
-    "name": "bgfres",
-    "releaseDate": "2021-06-29",
-    "times": "2",
-    "type": "movie"
-   },
-   {
-    "cinema": "burgas",
-    "description": "ani e tupa",
-    "duration": 5,
-    "genre": "a",
-    "hall": "1",
-    "id": 3,
-    "languages": "bg",
-    "name": "a",
-    "releaseDate": "2021-06-29",
-    "times": "2",
-    "type": "movie"
-   }
+    {
+        "id": 1,
+        "location": "burgas",
+        "name": "burgas",
+        "numHalls": 24,
+        "type": "cinema"
+    },
+    {
+        "id": 3,
+        "location": "tttt",
+        "name": "ttt",
+        "numHalls": 41,
+        "type": "cinema"
+    },
+    {
+        "cinema": "burgas",
+        "description": "ani e tupa",
+        "duration": 5,
+        "genre": "ani",
+        "hall": "2",
+        "id": 3,
+        "languages": "bg",
+        "name": "ani",
+        "releaseDate": "2025-06-29",
+        "times": "2",
+        "type": "movie"
+    },
+    {
+        "cinema": "burgas",
+        "description": "ani e tupa",
+        "duration": 5,
+        "genre": "gfdgdf",
+        "hall": "1",
+        "id": 3,
+        "languages": "bg",
+        "name": "ares",
+        "releaseDate": "2021-06-29",
+        "times": "2",
+        "type": "movie"
+    },
+    {
+        "cinema": "burgas",
+        "description": "ani e tupa",
+        "duration": 5,
+        "genre": "gfdgdf",
+        "hall": "1",
+        "id": 3,
+        "languages": "bg",
+        "name": "bgfres",
+        "releaseDate": "2021-06-29",
+        "times": "2",
+        "type": "movie"
+    },
+    {
+        "cinema": "burgas",
+        "description": "ani e tupa",
+        "duration": 5,
+        "genre": "a",
+        "hall": "1",
+        "id": 3,
+        "languages": "bg",
+        "name": "a",
+        "releaseDate": "2021-06-29",
+        "times": "2",
+        "type": "movie"
+    },
+    {
+        "cinema": "ttt",
+        "description": "dkas",
+        "duration": 40,
+        "genre": "charli",
+        "hall": "2",
+        "id": 7,
+        "languages": "bg, en, du, ruski",
+        "name": "charli",
+        "releaseDate": 2010,
+        "times": "12:30, 51:20",
+        "type": "movie"
+    }
 ]
