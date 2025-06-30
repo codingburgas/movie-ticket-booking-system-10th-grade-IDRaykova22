@@ -26,6 +26,8 @@ public:
 	void showList();
 
 	void displayMessage(std::string message);
+
+	bool loggedIn = false;
 private:
 	User* user;
 };

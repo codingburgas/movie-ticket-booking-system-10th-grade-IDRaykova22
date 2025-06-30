@@ -20,5 +20,25 @@
         ],
         "showTime": "2",
         "totalPrice": 120.0
+    },
+    {
+        "billingAddress": "nk",
+        "bookingDate": "2025-07-02",
+        "cardNumber": "1234****4567",
+        "children": 0,
+        "cinema": "burgas",
+        "customerName": "fds",
+        "elderly": 0,
+        "hall": "1",
+        "movieName": "ares",
+        "phoneNumber": "432",
+        "regularTickets": 3,
+        "seats": [
+            8,
+            24,
+            14
+        ],
+        "showTime": "2",
+        "totalPrice": 70.0
     }
 ]

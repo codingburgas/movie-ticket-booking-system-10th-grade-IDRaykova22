@@ -73,6 +73,13 @@ void Ui::mainMenu() {
             chooseMovie();
             break;
         case '4':
+            if (user->getIsAdmin())
+            {
+                adminMenu();
+            }
+            else std::cout << "You're not an admin.\n";
+            break;
+        case '5':
             displayMessage("You've logged out from: " + user->getUserName() + "\n");
             user->eraseUser();
             break;
@@ -366,11 +373,7 @@ void Ui::chooseMovie()
     //Clear console
     system("cls");
 
-    if (user->getIsAdmin())
-    {
-        adminMenu();
-    }
-    else if (user->getIsAdmin() == false)
+    if (loggedIn)
     {
         nlohmann::json data = Utilities::loadFile("../assets/movies.json");
 
@@ -1182,6 +1185,8 @@ void Ui::loginUi()
             std::cout << line << std::endl;
         }
     }
+
+    loggedIn = true;
 
     file.close();
 }

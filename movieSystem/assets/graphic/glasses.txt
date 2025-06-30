@@ -22,6 +22,7 @@
                                     |    [1] Create account    |
                                     |    [2] Login             |
                                     |    [3] Choose movie      |
-                                    |    [4] Logout            |
+				    |    [4] Admin menu        |
+                                    |    [5] Logout            |
                                     |                          |
                                     +==========================+
