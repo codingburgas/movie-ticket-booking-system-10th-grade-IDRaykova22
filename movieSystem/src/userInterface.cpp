@@ -264,6 +264,40 @@ void Ui::chooseMovie()
                 std::cout << "Press N to go back or enter another movie genre\n";
             }
         }
+        case '4':
+        {
+            std::cout << "Enter release year: ";
+            std::string releaseYear;
+
+            while (true)
+            {
+                std::getline(std::cin, releaseYear);
+                int releaseYearInt = std::stoi(releaseYear);
+
+                if (releaseYear == "N" || releaseYear == "n") mainMenu();
+
+                bool found = false;
+
+                for (auto& item : data)
+                {
+                    if (item.contains("type") && item["type"] == "movie")
+                    {
+                        if (item["releaseDate"] == releaseYearInt)
+                        {
+                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << "We couldn't find a movie with that release year.\n";
+                }
+
+                std::cout << "Press N to go back or enter another movie release year\n";
+            }
+        }
         }
         }
     
