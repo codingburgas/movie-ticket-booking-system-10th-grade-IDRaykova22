@@ -374,6 +374,13 @@ void Ui::chooseMovie()
             }
             std::cout << "\nEnter cinema: \n";
             std::getline(std::cin, cinemaName);
+            std::cout << "Listing all available movies:\n\n";
+
+            for (auto& item : data) {
+                if ((item.contains("type") && item["type"] == "movie") && item["cinema"].get<std::string>() == cinemaName) {
+                    std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| " << " | Languages : " << item["languages"].get<std::string>() << "| |Cinema : " << item["cinema"].get<std::string>() << '|' << " | Hall: " << item["hall"].get<std::string>() << "|\n" << std::endl;
+                }
+            }
             madeChoice = true;
             break;
         default:
