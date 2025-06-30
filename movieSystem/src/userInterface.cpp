@@ -117,7 +117,7 @@ void Ui::chooseMovie()
             }
         }
         
-        std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year\n";
+        std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year | [5] Showtime\n";
         char choice;
         std::cin >> choice;
         std::cin.ignore();
@@ -296,6 +296,41 @@ void Ui::chooseMovie()
                 }
 
                 std::cout << "Press N to go back or enter another movie release year\n";
+            }
+        }
+        case '5':
+        {
+            std::cout << "Enter showtime (Example: 12:20) : ";
+            std::string showtime;
+
+            while (true)
+            {
+                std::getline(std::cin, showtime);
+
+                if (showtime == "N" || showtime == "n") mainMenu();
+
+                bool found = false;
+
+                for (auto& item : data)
+                {
+                    if (item.contains("type") && item["type"] == "movie")
+                    {
+                        auto langs = splitLanguages(item["times"].get<std::string>());
+
+                        if (std::find(langs.begin(), langs.end(), showtime) != langs.end())
+                        {
+                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                            found = true;
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << "We couldn't find a movie that'll show at this exact hour.\n";
+                }
+
+                std::cout << "Press N to go back or enter another showtime\n";
             }
         }
         }
