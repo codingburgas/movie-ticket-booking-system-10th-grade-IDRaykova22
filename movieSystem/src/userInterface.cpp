@@ -364,7 +364,6 @@ void Ui::bookMovie()
     std::cout << std::endl;
     std::cout << "Thank you for your purchase!" << std::endl;
     std::cout << "Press any key to continue and then N to go back\n";
-    std::cin.get();
 }
 
 
@@ -677,8 +676,8 @@ void Ui::adminMenu()
                 editMovie();
                 break;
             case '6':
-                    deleteMovie();
-                    break;
+                 deleteMovie();
+                 break;
             case '7':
                 showList();
                 break;

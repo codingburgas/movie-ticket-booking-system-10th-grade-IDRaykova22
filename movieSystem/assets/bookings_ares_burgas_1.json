@@ -40,5 +40,24 @@
         ],
         "showTime": "2",
         "totalPrice": 70.0
+    },
+    {
+        "billingAddress": "WALK-IN",
+        "bookingDate": "2025-07-02",
+        "cardNumber": "WALK-IN",
+        "children": 0,
+        "cinema": "burgas",
+        "customerName": "edsf",
+        "elderly": 0,
+        "hall": "1",
+        "movieName": "ares",
+        "phoneNumber": "321",
+        "regularTickets": 2,
+        "seats": [
+            43,
+            15
+        ],
+        "showTime": "2",
+        "totalPrice": 30.0
     }
 ]
