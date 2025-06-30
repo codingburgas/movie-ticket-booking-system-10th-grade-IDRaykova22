@@ -77,5 +77,18 @@
         "releaseDate": 2010,
         "times": "12:30, 51:20",
         "type": "movie"
+    },
+    {
+        "cinema": "ttt",
+        "description": "rdsfds",
+        "duration": 210,
+        "genre": "fd",
+        "hall": "2",
+        "id": 8,
+        "languages": "bg",
+        "name": "aaz",
+        "releaseDate": 2014,
+        "times": "12",
+        "type": "movie"
     }
 ]

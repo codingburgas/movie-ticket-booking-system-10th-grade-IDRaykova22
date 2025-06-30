@@ -107,31 +107,65 @@ void Ui::chooseMovie()
     }
     else if (user->getIsAdmin() == false)
     {
-        std::cout << "Listing all available movies:\n\n";
-
         nlohmann::json data = Utilities::loadFile("../assets/movies.json");
 
-        for (auto& item : data) {
-            if (item.contains("type") && item["type"] == "movie") {
-                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| " << " | Languages : " << item["languages"].get<std::string>() << "| |Cinema : " << item["cinema"].get<std::string>() << '|' << " | Hall: " << item["hall"].get<std::string>() << "|\n" << std::endl;
-            }
-        }
-        
-        std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year | [5] Showtime\n";
-        char choice;
-        std::cin >> choice;
+        std::cout << "Hello, would you like to see all available movies in all cinemas or a specific cinema's schedule\n[1] All cinemas \n[2] Specific cinema\n";
+        char choiceSchedules;
+        bool madeChoice = false;
+        std::string cinemaName;
+        std::cin >> choiceSchedules;
         std::cin.ignore();
-
-        switch (choice)
+        switch (choiceSchedules)
         {
         case '1':
+            std::cout << "Listing all available movies:\n\n";
+
+            for (auto& item : data) {
+                if (item.contains("type") && item["type"] == "movie") {
+                    std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| " << " | Languages : " << item["languages"].get<std::string>() << "| |Cinema : " << item["cinema"].get<std::string>() << '|' << " | Hall: " << item["hall"].get<std::string>() << "|\n" << std::endl;
+                }
+            }
+            madeChoice = true;
+            break;
+        case '2':
+            std::cout << "Available Cinemas:\n";
+            for (auto& item : data) {
+                if (item.contains("type") && item["type"] == "cinema") {
+                    std::cout << "- " << item["name"].get<std::string>() << "\n";
+                }
+            }
+            std::cout << "\nEnter cinema: \n";
+            std::getline(std::cin, cinemaName);
+            std::cout << "Listing all available movies in " << cinemaName << ":\n\n";
+            for (auto& item : data) {
+                if (item.contains("type") && item["type"] == "movie" && item["cinema"].get<std::string>() == cinemaName) {
+                    std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| " << " | Languages : " << item["languages"].get<std::string>() << "| |Cinema : " << item["cinema"].get<std::string>() << '|' << " | Hall: " << item["hall"].get<std::string>() << "|\n" << std::endl;
+                }
+            }
+            madeChoice = true;
+            break;
+        default:
+            std::cout << "Invalid choice. Press N to go back\n";
+            break;
+        }
+        
+        if (madeChoice)
         {
-            std::cout << "[1] Specific name [2] From A to Z\n";
-            int choice;
+            std::cout << "Filter the search by: [1] Title | [2] Language | [3] Genre | [4] Release year | [5] Showtime\n";
+            char choice;
             std::cin >> choice;
             std::cin.ignore();
+
             switch (choice)
             {
+            case '1':
+            {
+                std::cout << "[1] Specific name [2] From A to Z\n";
+                int choice;
+                std::cin >> choice;
+                std::cin.ignore();
+                switch (choice)
+                {
                 case 1:
                 {
                     std::cout << "Enter movie name: ";
@@ -147,19 +181,19 @@ void Ui::chooseMovie()
 
                         for (auto& item : data)
                         {
-                            if (item.contains("type") && item["type"] == "movie")
+                            if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
                             {
-                            if (item["name"].get<std::string>() == movieName)
-                            {
-                                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
-                                found = true;
-                            }
+                                if (item["name"].get<std::string>() == movieName)
+                                {
+                                    std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                                    found = true;
+                                }
                             }
                         }
 
                         if (!found)
                         {
-                        std::cout << "We couldn't find a movie with that name.\n";
+                            std::cout << "We couldn't find a movie with that name.\n";
                         }
 
                         std::cout << "Press N to go back or enter another movie name\n";
@@ -171,7 +205,7 @@ void Ui::chooseMovie()
 
                     for (auto& item : data)
                     {
-                        if (item.contains("type") && item["type"] == "movie")
+                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
                         {
                             movies.push_back(item);
                         }
@@ -194,145 +228,146 @@ void Ui::chooseMovie()
                 default:
                     std::cout << "Invalid choice.\n";
                     break;
+                }
             }
-            }
-        case '2':
-        {
-            std::cout << "Enter language(s): ";
-            std::string language;
-
-            while (true)
+            case '2':
             {
-                std::getline(std::cin, language);
+                std::cout << "Enter language(s): ";
+                std::string language;
 
-                if (language == "N" || language == "n") mainMenu();
-
-                bool found = false;
-
-                for (auto& item : data)
+                while (true)
                 {
-                    if (item.contains("type") && item["type"] == "movie")
-                    {
-                        auto langs = splitLanguages(item["languages"].get<std::string>());
+                    std::getline(std::cin, language);
 
-                        if (std::find(langs.begin(), langs.end(), language) != langs.end())
+                    if (language == "N" || language == "n") mainMenu();
+
+                    bool found = false;
+
+                    for (auto& item : data)
+                    {
+                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
                         {
-                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
-                            found = true;
+                            auto langs = splitLanguages(item["languages"].get<std::string>());
+
+                            if (std::find(langs.begin(), langs.end(), language) != langs.end())
+                            {
+                                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                                found = true;
+                            }
                         }
                     }
-                }
 
-                if (!found)
-                {
-                    std::cout << "We couldn't find a movie with that language.\n";
-                }
-
-                std::cout << "Press N to go back or enter another movie language\n";
-            }
-        }
-        case '3':
-        {
-            std::cout << "Enter genre: ";
-            std::string genre;
-
-            while (true)
-            {
-                std::getline(std::cin, genre);
-
-                if (genre == "N" || genre == "n") mainMenu();
-
-                bool found = false;
-
-                for (auto& item : data)
-                {
-                    if (item.contains("type") && item["type"] == "movie")
+                    if (!found)
                     {
-                        if (item["genre"].get<std::string>() == genre)
+                        std::cout << "We couldn't find a movie with that language.\n";
+                    }
+
+                    std::cout << "Press N to go back or enter another movie language\n";
+                }
+            }
+            case '3':
+            {
+                std::cout << "Enter genre: ";
+                std::string genre;
+
+                while (true)
+                {
+                    std::getline(std::cin, genre);
+
+                    if (genre == "N" || genre == "n") mainMenu();
+
+                    bool found = false;
+
+                    for (auto& item : data)
+                    {
+                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
                         {
-                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
-                            found = true;
+                            if (item["genre"].get<std::string>() == genre)
+                            {
+                                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                                found = true;
+                            }
                         }
                     }
-                }
 
-                if (!found)
-                {
-                    std::cout << "We couldn't find a movie with that genre.\n";
-                }
-
-                std::cout << "Press N to go back or enter another movie genre\n";
-            }
-        }
-        case '4':
-        {
-            std::cout << "Enter release year: ";
-            std::string releaseYear;
-
-            while (true)
-            {
-                std::getline(std::cin, releaseYear);
-                int releaseYearInt = std::stoi(releaseYear);
-
-                if (releaseYear == "N" || releaseYear == "n") mainMenu();
-
-                bool found = false;
-
-                for (auto& item : data)
-                {
-                    if (item.contains("type") && item["type"] == "movie")
+                    if (!found)
                     {
-                        if (item["releaseDate"] == releaseYearInt)
+                        std::cout << "We couldn't find a movie with that genre.\n";
+                    }
+
+                    std::cout << "Press N to go back or enter another movie genre\n";
+                }
+            }
+            case '4':
+            {
+                std::cout << "Enter release year: ";
+                std::string releaseYear;
+
+                while (true)
+                {
+                    std::getline(std::cin, releaseYear);
+                    if (releaseYear == "N" || releaseYear == "n") mainMenu();
+                    int releaseYearInt = std::stoi(releaseYear);
+
+                    bool found = false;
+
+                    for (auto& item : data)
+                    {
+                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
                         {
-                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
-                            found = true;
+                            if (item["releaseDate"] == releaseYearInt)
+                            {
+                                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                                found = true;
+                            }
                         }
                     }
-                }
 
-                if (!found)
-                {
-                    std::cout << "We couldn't find a movie with that release year.\n";
-                }
-
-                std::cout << "Press N to go back or enter another movie release year\n";
-            }
-        }
-        case '5':
-        {
-            std::cout << "Enter showtime (Example: 12:20) : ";
-            std::string showtime;
-
-            while (true)
-            {
-                std::getline(std::cin, showtime);
-
-                if (showtime == "N" || showtime == "n") mainMenu();
-
-                bool found = false;
-
-                for (auto& item : data)
-                {
-                    if (item.contains("type") && item["type"] == "movie")
+                    if (!found)
                     {
-                        auto langs = splitLanguages(item["times"].get<std::string>());
+                        std::cout << "We couldn't find a movie with that release year.\n";
+                    }
 
-                        if (std::find(langs.begin(), langs.end(), showtime) != langs.end())
+                    std::cout << "Press N to go back or enter another movie release year\n";
+                }
+                break;
+            }
+            case '5':
+            {
+                std::cout << "Enter showtime (Example: 12:20) : ";
+                std::string showtime;
+
+                while (true)
+                {
+                    std::getline(std::cin, showtime);
+
+                    if (showtime == "N" || showtime == "n") mainMenu();
+
+                    bool found = false;
+
+                    for (auto& item : data)
+                    {
+                        if (item.contains("type") && item["type"] == "movie" && (cinemaName.empty() || item["cinema"].get<std::string>() == cinemaName))
                         {
-                            std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
-                            found = true;
+                            auto langs = splitLanguages(item["times"].get<std::string>());
+
+                            if (std::find(langs.begin(), langs.end(), showtime) != langs.end())
+                            {
+                                std::cout << "- " << item["name"].get<std::string>() << " |Genre: " << item["genre"].get<std::string>() << "| |Show times: " << item["times"].get<std::string>() << "| |Release year: " << item["releaseDate"] << "| |Duration: " << item["duration"] << " minutes| |Languages: " << item["languages"].get<std::string>() << "| |Cinema: " << item["cinema"].get<std::string>() << "| |Hall: " << item["hall"].get<std::string>() << "|" << std::endl;
+                                found = true;
+                            }
                         }
                     }
-                }
 
-                if (!found)
-                {
-                    std::cout << "We couldn't find a movie that'll show at this exact hour.\n";
-                }
+                    if (!found)
+                    {
+                        std::cout << "We couldn't find a movie that'll show at this exact hour.\n";
+                    }
 
-                std::cout << "Press N to go back or enter another showtime\n";
+                    std::cout << "Press N to go back or enter another showtime\n";
+                }
             }
-        }
+            }
         }
         }
     
